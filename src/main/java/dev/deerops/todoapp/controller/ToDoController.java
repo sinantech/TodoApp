@@ -1,6 +1,7 @@
 package dev.deerops.todoapp.controller;
 
 import dev.deerops.todoapp.model.dto.request.CreateToDoRequest;
+import dev.deerops.todoapp.model.dto.request.UpdateToDoRequest;
 import dev.deerops.todoapp.model.dto.response.ToDoResponse;
 import dev.deerops.todoapp.service.TodoService;
 import jakarta.validation.Valid;
