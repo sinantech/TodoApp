@@ -1,6 +1,7 @@
 package dev.deerops.todoapp.service.impl;
 
 import dev.deerops.todoapp.model.dto.request.CreateToDoRequest;
+import dev.deerops.todoapp.model.dto.request.UpdateToDoRequest;
 import dev.deerops.todoapp.model.dto.response.ToDoResponse;
 import dev.deerops.todoapp.model.entity.ToDoEntity;
 import dev.deerops.todoapp.model.mapper.ToDoMapper;
@@ -20,6 +21,8 @@ public class ToDoServiceImpl implements TodoService {
     private final ToDoRepository todoRepository;
 
     private final ToDoMapper todoMapper;
+
+
 
     @Override
     public ResponseEntity<ToDoResponse> createToDo(CreateToDoRequest createToDoRequest) {
@@ -41,5 +44,16 @@ public class ToDoServiceImpl implements TodoService {
         ToDoEntity toDoEntity = todoRepository.findById(toDoId).orElseThrow(()-> new RuntimeException("ToDo not found"));
         todoRepository.delete(toDoEntity);
         return ResponseEntity.ok("ToDo deleted successfully");
+    }
+
+    public ResponseEntity<ToDoResponse> updateToDo(String toDoId, UpdateToDoRequest updateToDoRequest) {
+        ToDoEntity toDoEntity = todoRepository.findById(toDoId)
+                .orElseThrow(() -> new RuntimeException("ToDo not found"));
+
+        // Map updated fields from request to entity
+        todoMapper.updateToDoEntityFromRequest(updateToDoRequest, toDoEntity);
+
+        ToDoResponse response = todoMapper.fromCreateToDoResponse(todoRepository.save(toDoEntity));
+        return ResponseEntity.ok(response);
     }
 }

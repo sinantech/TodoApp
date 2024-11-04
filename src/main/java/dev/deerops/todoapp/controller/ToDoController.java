@@ -35,4 +35,11 @@ public class ToDoController {
         return todoService.deleteToDoById(toDoId);
     }
 
+    @PutMapping("/{toDoId}")
+    @CrossOrigin
+    public ResponseEntity<ToDoResponse> updateToDo(
+            @PathVariable String toDoId,
+            @Valid @RequestBody UpdateToDoRequest updateToDoRequest) {
+        return todoService.updateToDo(toDoId, updateToDoRequest);
+    }
 }
